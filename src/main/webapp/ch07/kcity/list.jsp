@@ -15,7 +15,7 @@ th, td {
 <body style="margin: 50px;">
 	<h1>
 		국내 도시 목록
-		<button onclick="location.href='/jw/ch07/kcity/insert'"
+		<button onclick="location.href='/jw/ch07/kpop/insert'"
 			style="margin-left: 100px">추가</button>
 	</h1>
 
@@ -39,8 +39,7 @@ th, td {
 				<td>${city.district}</td>
 				<td>${city.population}</td>
 				<td><a href="/jw/ch07/kcity/update?id=${city.id}">수정</a> <a
-					href="/jw/ch07/kcity/delete?id=${city.id}">삭제</a>
-				</td>
+					href="/jw/ch07/kcity/delete?id=${city.id}">삭제</a></td>
 			</tr>
 		</c:forEach>
 	</table>

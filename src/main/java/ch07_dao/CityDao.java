@@ -84,7 +84,7 @@ public class CityDao {
 			pstmt.setString(1, city.getName());
 			pstmt.setString(2, city.getCountryCode());
 			pstmt.setString(3, city.getDistrict());
-			pstmt.setInt((int) 4., city.getPopulation());
+			pstmt.setInt(4, city.getPopulation());
 
 			pstmt.executeUpdate();
 			pstmt.close();
