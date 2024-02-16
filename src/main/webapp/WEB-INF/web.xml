@@ -99,4 +99,24 @@
     <servlet-name>Ex02_List</servlet-name>
     <url-pattern>/Ex02_List</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>kcityController</display-name>
+    <servlet-name>kcityController</servlet-name>
+    <servlet-class>ch07_dao.kcity.kcityController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>kcityController</servlet-name>
+    <url-pattern>/kcityController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>kcityController2</display-name>
+    <servlet-name>kcityController2</servlet-name>
+    <servlet-class>ch07_dao.kcity.kcityController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>kcityController2</servlet-name>
+    <url-pattern>/kcityController2</url-pattern>
+  </servlet-mapping>
 </web-app>
