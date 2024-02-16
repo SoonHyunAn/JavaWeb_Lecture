@@ -56,7 +56,5 @@ public class KpopMain {
 		//8번, 9번
 //		kDaoImpl.deleteArtist(1014);
 //		kDaoImpl.deleteSong(118);
-		
-		kDaoImpl.close();
 	}
 }

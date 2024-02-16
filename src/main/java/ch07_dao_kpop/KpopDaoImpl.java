@@ -11,42 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class KpopDaoImpl implements KpopDao {
 
-	private String connStr;
-	private String user;
-	private String password;
-	private Connection conn;
-
-	public KpopDaoImpl() {
-		String path = "C:/Workspace/WebProject/05. JAVA/Back_End_JAVA_Lecture/src/MySQL/sec05_basic/mysql.properties";
+	public Connection getConnection() {
+		Connection conn = null;
 		try {
-			Properties prop = new Properties();
-			prop.load(new FileInputStream(path));
-
-			String host = prop.getProperty("host");
-			String port = prop.getProperty("port");
-			String database = prop.getProperty("database");
-
-			this.connStr = "jdbc:mysql://" + host + ":" + port + "/" + database;
-			this.user = prop.getProperty("user");
-			this.password = prop.getProperty("password");
-			this.conn = DriverManager.getConnection(connStr, user, password);
+			Context initContext = new InitialContext();
+			DataSource ds = (DataSource) initContext.lookup("java:comp/env/" + "jdbc/world");
+			conn = ds.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void close() {
-		try {
-			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		return conn;
 	}
 
 	@Override
 	public List<Kpop> getKpopList() {
+		Connection conn = getConnection();
 		String sql = "select girl_group.gid No, girl_group.name 그룹명, girl_group.debut 데뷔일, song.title 제목, song.lyrics 가사 from girl_group JOIN song ON girl_group.hit_song_id=song.sid";
 		List<Kpop> list = new ArrayList<Kpop>();
 		Kpop kpop = null;
@@ -60,14 +45,16 @@ public class KpopDaoImpl implements KpopDao {
 			}
 			rs.close();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
-	
+
 	@Override
 	public List<Artist> getArtistList() {
+		Connection conn = getConnection();
 		String sql = "select * from girl_group";
 		List<Artist> list = new ArrayList<Artist>();
 		Artist girl_group = null;
@@ -80,6 +67,7 @@ public class KpopDaoImpl implements KpopDao {
 			}
 			rs.close();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,6 +76,7 @@ public class KpopDaoImpl implements KpopDao {
 
 	@Override
 	public List<Song> getSongList() {
+		Connection conn = getConnection();
 		String sql = "select * from song";
 		List<Song> list = new ArrayList<Song>();
 		Song song = null;
@@ -100,15 +89,16 @@ public class KpopDaoImpl implements KpopDao {
 			}
 			rs.close();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
 
-
 	@Override
 	public Artist getArtist(int aid) {
+		Connection conn = getConnection();
 		String sql = "select * from girl_group where gid =?";
 		Artist artist = null;
 
@@ -122,6 +112,7 @@ public class KpopDaoImpl implements KpopDao {
 			}
 			rs.close();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,6 +121,7 @@ public class KpopDaoImpl implements KpopDao {
 
 	@Override
 	public Song getSong(int sid) {
+		Connection conn = getConnection();
 		String sql = "select * from song where sid =?";
 		Song song = null;
 
@@ -143,6 +135,7 @@ public class KpopDaoImpl implements KpopDao {
 			}
 			rs.close();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -151,14 +144,17 @@ public class KpopDaoImpl implements KpopDao {
 
 	@Override
 	public void insertArtist(Artist artist) {
-		String sql = "insert into girl_group values (default,?,?,default)";
+		Connection conn = getConnection();
+		String sql = "insert into girl_group values (default,?,?,?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, artist.getName());
 			pstmt.setString(2, artist.getDebut().toString());
+			pstmt.setInt(3, artist.getHitSongId());
 
 			pstmt.executeUpdate();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -166,6 +162,7 @@ public class KpopDaoImpl implements KpopDao {
 
 	@Override
 	public void updateArtist(Artist artist) {
+		Connection conn = getConnection();
 		String sql = "update girl_group set name = ?, debut= ? where gid=?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -175,6 +172,7 @@ public class KpopDaoImpl implements KpopDao {
 
 			pstmt.executeUpdate();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -182,6 +180,7 @@ public class KpopDaoImpl implements KpopDao {
 
 	@Override
 	public void insertSong(Song song) {
+		Connection conn = getConnection();
 		String sql = "insert into song values (default,?,?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -190,6 +189,7 @@ public class KpopDaoImpl implements KpopDao {
 
 			pstmt.executeUpdate();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,6 +197,7 @@ public class KpopDaoImpl implements KpopDao {
 
 	@Override
 	public void updateSong(Song song) {
+		Connection conn = getConnection();
 		String sql = "update song set title = ?, lyrics= ? where sid = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -206,6 +207,7 @@ public class KpopDaoImpl implements KpopDao {
 
 			pstmt.executeUpdate();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -213,6 +215,7 @@ public class KpopDaoImpl implements KpopDao {
 
 	@Override
 	public void deleteArtist(int aid) {
+		Connection conn = getConnection();
 		String sql = "delete from girl_group where gid = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -220,6 +223,7 @@ public class KpopDaoImpl implements KpopDao {
 
 			pstmt.executeUpdate();
 			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -227,6 +231,7 @@ public class KpopDaoImpl implements KpopDao {
 
 	@Override
 	public void deleteSong(int sid) {
+		Connection conn = getConnection();
 		String sql = "delete from song where sid = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -239,7 +244,5 @@ public class KpopDaoImpl implements KpopDao {
 			e.printStackTrace();
 		}
 	}
-
-
 
 }

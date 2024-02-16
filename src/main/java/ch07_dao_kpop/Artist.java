@@ -30,6 +30,13 @@ public class Artist {
 		this.debut = debut;
 	}
 
+	public Artist(String name, LocalDate debut, int hitSongId) {
+		super();
+		this.name = name;
+		this.debut = debut;
+		this.hitSongId = hitSongId;
+	}
+
 	@Override
 	public String toString() {
 		return "Artist [aid=" + aid + ", name=" + name + ", debut=" + debut + "]";
