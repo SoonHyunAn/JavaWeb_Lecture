@@ -24,7 +24,7 @@ public class KpopController extends HttpServlet {
 		String method = request.getMethod();
 		RequestDispatcher rd = null;
 		String name = null, title = null, lyrics = null, debut=null;
-				int sid = 0, aid = 0, hit_song_id = 0;
+		int sid = 0, aid = 0, hitSongId = 0;
 		Song song = null;
 		Artist artist = null;
 
@@ -43,8 +43,8 @@ public class KpopController extends HttpServlet {
 			} else {
 				name = request.getParameter("name");
 				debut = request.getParameter("debut");
-				hit_song_id = Integer.parseInt(request.getParameter("hit_song_id"));
-				artist = new Artist(name, LocalDate.parse(debut), hit_song_id);
+				hitSongId = Integer.parseInt(request.getParameter("hitSongId"));
+				artist = new Artist(name, LocalDate.parse(debut), hitSongId);
 				kDao.insertArtist(artist);
 
 				response.sendRedirect("/jw/ch07/kpop/list");
@@ -67,63 +67,61 @@ public class KpopController extends HttpServlet {
 			break;
 //
 		case "updateArtist":
-//			if (method.equals("GET")) {
-//				id = Integer.parseInt(request.getParameter("id"));
-//				city = cDao.getCity(id);
-//				rd = request.getRequestDispatcher("/ch07/kpop/update.jsp");
-//				request.setAttribute("city", city);
-//				request.setAttribute("districts", districts);
-//				rd.forward(request, response);
-//			} else {
-//				id = Integer.parseInt(request.getParameter("id"));
-//				name = request.getParameter("name");
-//				countryCode = request.getParameter("countryCode");
-//				district = request.getParameter("district");
-//				population_ = request.getParameter("population");
-//				population = (population_.equals("")) ? 0 : Integer.parseInt(population_);
-//				city = new City(id, name, countryCode, district, population);
-//				cDao.updateCity(city);
-//				response.sendRedirect("/jw/ch07/kpop/list?district=" + district + "&num=30&offset=0");
-//			}
-//			break;
+			if (method.equals("GET")) {
+				String aidCheck = request.getParameter("aid");
+				aid = (aidCheck != null) ? Integer.parseInt(aidCheck) : 0;
+				artist = kDao.getArtist(aid);
+				rd = request.getRequestDispatcher("/ch07/kpop/updateArtist.jsp");
+				request.setAttribute("artist", artist);
+				rd.forward(request, response);
+			} else {
+				aid = Integer.parseInt(request.getParameter("aid"));
+				name = request.getParameter("name");
+				debut = request.getParameter("debut");
+				hitSongId = Integer.parseInt(request.getParameter("hitSongId"));
+				artist = new Artist(aid, name, LocalDate.parse(debut),hitSongId);
+				
+				kDao.updateArtist(artist);
+				response.sendRedirect("/jw/ch07/kpop/list");
+			}
+			break;
 		case "updateSong":
-//			if (method.equals("GET")) {
-//				id = Integer.parseInt(request.getParameter("id"));
-//				city = cDao.getCity(id);
-//				rd = request.getRequestDispatcher("/ch07/kpop/update.jsp");
-//				request.setAttribute("city", city);
-//				request.setAttribute("districts", districts);
-//				rd.forward(request, response);
-//			} else {
-//				id = Integer.parseInt(request.getParameter("id"));
-//				name = request.getParameter("name");
-//				countryCode = request.getParameter("countryCode");
-//				district = request.getParameter("district");
-//				population_ = request.getParameter("population");
-//				population = (population_.equals("")) ? 0 : Integer.parseInt(population_);
-//				city = new City(id, name, countryCode, district, population);
-//				cDao.updateCity(city);
-//				response.sendRedirect("/jw/ch07/kpop/list?district=" + district + "&num=30&offset=0");
-//			}
-//			break;
+			if (method.equals("GET")) {
+				String sidCheck = request.getParameter("sid");
+				sid = (sidCheck != null) ? Integer.parseInt(sidCheck) : 0;
+				song = kDao.getSong(sid);
+				rd = request.getRequestDispatcher("/ch07/kpop/updateSong.jsp");
+				request.setAttribute("song", song);
+				rd.forward(request, response);
+			} else {
+				sid = Integer.parseInt(request.getParameter("sid"));
+				title = request.getParameter("title");
+				lyrics = request.getParameter("lyrics");
+				song = new Song(sid, title, lyrics);
+				kDao.updateSong(song);
+				response.sendRedirect("/jw/ch07/kpop/list");
+			}
+			break;
 //
 		case "deleteArtist":
-//			id = Integer.parseInt(request.getParameter("id"));
-//			cDao.deleteCity(id);
-//			response.sendRedirect("/jw/ch07/kpop/list?&num=30&offset=0");
-//			break;
+			String aidCheck = request.getParameter("aid");
+			aid = (aidCheck != null) ? Integer.parseInt(aidCheck) : 0;
+			kDao.deleteArtist(aid);
+			response.sendRedirect("/jw/ch07/kpop/list");
+			break;
 
 		case "deleteSong":
-//			id = Integer.parseInt(request.getParameter("id"));
-//			cDao.deleteCity(id);
-//			response.sendRedirect("/jw/ch07/kpop/list?&num=30&offset=0");
-//			break;
+			String sidCheck = request.getParameter("sid");
+			sid = (sidCheck != null) ? Integer.parseInt(sidCheck) : 0;
+			kDao.deleteSong(sid);
+			response.sendRedirect("/jw/ch07/kpop/list");
+			break;
 //
 		default:
-//			rd = request.getRequestDispatcher("/ch07/kpop/alertMsg.jsp");
-//			request.setAttribute("msg", "잘못된 접근입니다.");
-//			request.setAttribute("url", "/jw/ch07/kpop/list");
-//			rd.forward(request, response);
+			rd = request.getRequestDispatcher("/ch07/kpop/alertMsg.jsp");
+			request.setAttribute("msg", "잘못된 접근입니다.");
+			request.setAttribute("url", "/jw/ch07/kpop/list");
+			rd.forward(request, response);
 		}
 	}
 

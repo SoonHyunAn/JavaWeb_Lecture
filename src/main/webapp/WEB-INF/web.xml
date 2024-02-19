@@ -119,4 +119,14 @@
     <servlet-name>kcityController2</servlet-name>
     <url-pattern>/kcityController2</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Ex01_SetSessiob</display-name>
+    <servlet-name>Ex01_SetSessiob</servlet-name>
+    <servlet-class>ch09_cookie_session.Ex01_SetSessiob</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Ex01_SetSessiob</servlet-name>
+    <url-pattern>/Ex01_SetSessiob</url-pattern>
+  </servlet-mapping>
 </web-app>

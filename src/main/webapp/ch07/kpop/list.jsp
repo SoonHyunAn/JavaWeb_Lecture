@@ -37,12 +37,12 @@ th, td {
 				<td>${kpop.aid}</td>
 				<td>${kpop.name}</td>
 				<td>${kpop.debut}</td>
-				<td><a href="/jw/ch07/kpop/updateArtist?id=${kpop.aid}">수정</a> 
-				<a href="/jw/ch07/kpop/deleteArtist?id=${kpop.aid}">삭제</a></td>
+				<td><a href="/jw/ch07/kpop/updateArtist?aid=${kpop.aid}">수정</a> 
+				<a href="/jw/ch07/kpop/deleteArtist?aid=${kpop.aid}">삭제</a></td>
 				<td>${kpop.title}</td>
 				<td>${kpop.lyrics}</td>
-				<td><a href="/jw/ch07/kpop/updateSong?id=${kpop.sid}">수정</a> <a
-					href="/jw/ch07/kpop/deleteSong?id=${kpop.sid}">삭제</a></td>
+				<td><a href="/jw/ch07/kpop/updateSong?sid=${kpop.sid}">수정</a> <a
+					href="/jw/ch07/kpop/deleteSong?sid=${kpop.sid}">삭제</a></td>
 			</tr>
 		</c:forEach>
 
