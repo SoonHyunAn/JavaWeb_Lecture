@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet({ "/ch07/kpop/list", "/ch07/kpop/insertArtist", "/ch07/kpop/updateArtist", "/ch07/kpop/deleteArtist",
-		"/ch07/kpop/insertSong", "/ch07/kpop/updateSong", "/ch07/kpop/deleteSong", "/ch07/kpop/wrong" })
+		"/ch07/kpop/insertSong", "/ch07/kpop/updateSong", "/ch07/kpop/deleteSong", "/ch07/kpop/wrong"})
 public class KpopController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private KpopDaoImpl kDao = new KpopDaoImpl();
@@ -124,5 +124,4 @@ public class KpopController extends HttpServlet {
 			rd.forward(request, response);
 		}
 	}
-
 }
