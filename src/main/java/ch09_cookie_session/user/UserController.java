@@ -44,26 +44,27 @@ public class UserController extends HttpServlet {
 				rd = request.getRequestDispatcher("/ch09/user/register.jsp");
 				rd.forward(request, response);
 			} else {
-//				uid = request.getParameter("uid");
-//				pwd = request.getParameter("pwd");
-//				int result = uSvc.login(uid, pwd);
-//				if (result == uSvc.correct_login) {
-//					user = uSvc.getUserByUid(uid);
-//					session.setAttribute("sessUid", uid);
-//					session.setAttribute("sessUname", user.getUname());
-//					msg = user.getUname() + "님 환영합니다.";
-//					url = "/jw/ch09/user/list?page=1"; // 초기화면
-//				} else if (result == uSvc.WRONG_PASSWORD) {
-//					msg = "패스워드가 틀립니다.";
-//					url = "/jw/ch09/user/login";
-//				} else {
-//					msg = "등록되지 않은 사용자입니다.";
-//					url = "/jw/ch09/user/login";
-//				}
-//				rd = request.getRequestDispatcher("/ch09/user/alertMsg.jsp");
-//				request.setAttribute("msg", msg);
-//				request.setAttribute("url", url);
-//				rd.forward(request, response);
+				uid = request.getParameter("uid");
+				pwd = request.getParameter("pwd");
+				pwd2 = request.getParameter("pwd2");
+				User result = uSvc.getUserByUid(uid);
+				if (result == uSvc.correct_login) {
+					user = uSvc.getUserByUid(uid);
+					session.setAttribute("sessUid", uid);
+					session.setAttribute("sessUname", user.getUname());
+					msg = user.getUname() + "님 환영합니다.";
+					url = "/jw/ch09/user/list?page=1"; // 초기화면
+				} else if (result == uSvc.WRONG_PASSWORD) {
+					msg = "패스워드가 틀립니다.";
+					url = "/jw/ch09/user/login";
+				} else {
+					msg = "등록되지 않은 사용자입니다.";
+					url = "/jw/ch09/user/login";
+				}
+				rd = request.getRequestDispatcher("/ch09/user/alertMsg.jsp");
+				request.setAttribute("msg", msg);
+				request.setAttribute("url", url);
+				rd.forward(request, response);
 			}
 			break;
 		}
