@@ -11,6 +11,10 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+import ch07_dao.City;
+
 @WebServlet({ "/ch09/user/list", "/ch09/user/register", "/ch09/user/update", "/ch09/user/delete", "/ch09/user/login",
 		"/ch09/user/logout" })
 public class UserController extends HttpServlet {
@@ -25,15 +29,16 @@ public class UserController extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		RequestDispatcher rd = null;
-		String uid = null, pwd = null, pwd2 = null, email = null, uname = null;
+		String uid = null, pwd = null, pwd2 = null, hashedPwd = null, email = null, uname = null;
 		String msg = null, url = null;
 		User user = null;
+		List<User> list = null;
 
 		switch (action) {
 		case "list": {
 			String page_ = request.getParameter("page");
 			int page = (page_ == null || page_.equals("")) ? 1 : Integer.parseInt(page_);
-			List<User> list = uSvc.getUserList(page);
+			list = uSvc.getUserList(page);
 			request.setAttribute("list", list);
 			rd = request.getRequestDispatcher("/ch09/user/list.jsp");
 			rd.forward(request, response);
@@ -45,14 +50,20 @@ public class UserController extends HttpServlet {
 				rd.forward(request, response);
 			} else {
 				uid = request.getParameter("uid");
-				User result = uSvc.getUserByUid(uid);
 				pwd = request.getParameter("pwd");
 				pwd2 = request.getParameter("pwd2");
 				uname = request.getParameter("uname");
 				email = request.getParameter("email");
-				result.setPwd(pwd); result.setEmail(email);
-				result.setUid(uid); result.setUname(uname);
-				if(!pwd.equals(pwd2)){
+				if (uSvc.getUserByUid(uid) != null) {
+					rd = request.getRequestDispatcher("/ch09/user/alertMsg.jsp");
+					request.setAttribute("msg", "아이디가 중복입니다.");
+					request.setAttribute("url", "/jw/ch09/user/register");
+					rd.forward(request, response);
+				} else if (pwd.equals(pwd2)) {
+					user = new User(uid, pwd, uname, email);
+					uSvc.registerUser(user);
+					response.sendRedirect("/jw/ch09/user/list?page=1");
+				} else {
 					msg = "비밀번호가 일치하지 않습니다.";
 					url = "/ch09/user/register.jsp";
 					rd = request.getRequestDispatcher("/ch09/user/alertMsg.jsp");
@@ -60,16 +71,7 @@ public class UserController extends HttpServlet {
 					request.setAttribute("url", url);
 					rd.forward(request, response);
 				}
-				rd = request.getRequestDispatcher("/ch09/user/list.jsp");
-				request.setAttribute("user", result);
-				rd.forward(request, response);
 			}
-			break;
-		}
-		case "update": {
-			break;
-		}
-		case "delete": {
 			break;
 		}
 		case "login": {
@@ -103,6 +105,37 @@ public class UserController extends HttpServlet {
 		case "logout": {
 			// session을 정리하면 된다.
 			session.invalidate();
+			response.sendRedirect("/jw/ch09/user/list?page=1");
+			break;
+		}
+		case "update": {
+			if (method.equals("GET")) {
+				uid = request.getParameter("uid");
+				user = uSvc.getUserByUid(uid);
+				rd = request.getRequestDispatcher("/ch09/user/update.jsp");
+				request.setAttribute("user", user);
+				rd.forward(request, response);
+			} else {
+				uid = request.getParameter("uid");
+				pwd = request.getParameter("pwd");
+				pwd2 = request.getParameter("pwd2");
+				hashedPwd = request.getParameter("hashedPwd");
+				uname = request.getParameter("uname");
+				email = request.getParameter("email");
+				if (pwd != null && pwd.equals(pwd2))
+					hashedPwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
+				user = new User(uid, hashedPwd, uname, email);
+				uSvc.updateUser(user);
+				response.sendRedirect("/jw/ch09/user/list?page=1");
+			}
+			break;
+		}
+		case "delete": {
+			uid = request.getParameter("uid");
+			uSvc.deleteUser(uid);
+			String sessUid = (String) session.getAttribute("sessUid");
+			if (!sessUid.equals("admin"))
+				session.invalidate();
 			response.sendRedirect("/jw/ch09/user/list?page=1");
 			break;
 		}
