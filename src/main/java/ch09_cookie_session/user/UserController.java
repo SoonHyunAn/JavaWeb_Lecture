@@ -40,13 +40,16 @@ public class UserController extends HttpServlet {
 			int page = (page_ == null || page_.equals("")) ? 1 : Integer.parseInt(page_);
 			list = uSvc.getUserList(page);
 			request.setAttribute("list", list);
-			rd = request.getRequestDispatcher("/ch09/user/list.jsp");
+//			rd = request.getRequestDispatcher("/ch09/user/list.jsp");
+			rd = request.getRequestDispatcher("/ch09/user/listBS.jsp");
+
 			rd.forward(request, response);
 			break;
 		}
 		case "register": {
 			if (method.equals("GET")) {
-				rd = request.getRequestDispatcher("/ch09/user/register.jsp");
+//				rd = request.getRequestDispatcher("/ch09/user/register.jsp");
+				rd = request.getRequestDispatcher("/ch09/user/registerBS.jsp");
 				rd.forward(request, response);
 			} else {
 				uid = request.getParameter("uid");
@@ -76,7 +79,8 @@ public class UserController extends HttpServlet {
 		}
 		case "login": {
 			if (method.equals("GET")) {
-				rd = request.getRequestDispatcher("/ch09/user/login.jsp");
+//				rd = request.getRequestDispatcher("/ch09/user/login.jsp");
+				rd = request.getRequestDispatcher("/ch09/user/loginBS.jsp");
 				rd.forward(request, response);
 			} else {
 				uid = request.getParameter("uid");
@@ -112,7 +116,8 @@ public class UserController extends HttpServlet {
 			if (method.equals("GET")) {
 				uid = request.getParameter("uid");
 				user = uSvc.getUserByUid(uid);
-				rd = request.getRequestDispatcher("/ch09/user/update.jsp");
+//				rd = request.getRequestDispatcher("/ch09/user/update.jsp");
+				rd = request.getRequestDispatcher("/ch09/user/updateBS.jsp");
 				request.setAttribute("user", user);
 				rd.forward(request, response);
 			} else {

@@ -21,6 +21,8 @@ td {text-align: center;}
   <div class="container" style="margin-top:80px">
     <div class="row">
       <%@ include file = "_aside.jspf" %>
+      
+      <%-- 본문 영역, 매 페이지마다 바뀌는 부분 --%>
       <div class="col-9">
         <h3><strong>글 쓰기</strong></h3>
         <hr>
