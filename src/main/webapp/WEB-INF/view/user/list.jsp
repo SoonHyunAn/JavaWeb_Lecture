@@ -17,7 +17,7 @@ td, th {
 <script>
 	function deleteFunc(uid) {
 		$('#deleteModal').modal('show');
-		
+		$('#deleteUid').val(uid); 
 	}
 </script>
 </head>
@@ -73,6 +73,7 @@ td, th {
 		</div>
 	</div>
 	<%@ include file="../common/_bottom.jspf"%>
+	
 	<div class="modal" id="deleteModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -80,8 +81,13 @@ td, th {
 					<h4 class="modal-title">사용자 탈퇴</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-				<div class="modal-body">탈퇴 하시겠습니까?
-					<button class="btn btn-danger" type="submit">탈퇴</button>
+				<div class="modal-body">정말로? 탈퇴? 하시겠습니까?
+					<div class="text-center mt-5">
+						<form action="/jw/bbs/user/delete" method="post">
+							<input type="text" id="deleteUid" name="uid">
+							<button class="btn btn-danger" type="submit">탈퇴</button>		
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
