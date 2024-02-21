@@ -1,4 +1,4 @@
-package ch09_cookie_session.user;
+package project.controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -7,12 +7,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import project.entity.User;
+import project.service.UserService;
+import project.service.UserServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
-
 
 @WebServlet({ "/ch09/user/list", "/ch09/user/register", "/ch09/user/update", "/ch09/user/delete", "/ch09/user/login",
 		"/ch09/user/logout" })
