@@ -43,13 +43,13 @@ public class UserController extends HttpServlet {
 			session.setAttribute("currentUserPAge", page);
 			List<User> userList = uSvc.getUserList(page);
 			request.setAttribute("userList", userList);
+			
 			// 페이지 구현
 			int totalUsers = uSvc.getUserCount(); // 전체 유저 수
 			int totalPages = (int) Math.ceil(totalUsers * 1.0/uSvc.count_per_page); // 페이지 수
 			List<String> pageList = new ArrayList<String>();
-			for (int i = 1; i <= totalPages; i++) {
+			for (int i = 1; i <= totalPages; i++)
 				pageList.add(String.valueOf(i));
-			}
 			request.setAttribute("pageList", pageList);
 
 			rd = request.getRequestDispatcher("/WEB-INF/view/user/list.jsp");

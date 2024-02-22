@@ -30,8 +30,7 @@ td, th {
 			<div class="col-9">
 				<h3>
 					<strong class="me-5">사용자 목록</strong> <span style="font-size: 16px;"><a
-						href="/jw/bbs/user/register"><i class="fa-solid fa-user-plus"></i>사용자
-							가입</a></span>
+						href="/jw/bbs/user/register"><i class="fa-solid fa-user-plus"></i>사용자 가입</a></span>
 				</h3>
 				<hr>
 				<div class="row">
@@ -67,12 +66,14 @@ td, th {
 							</c:forEach>
 						</table>
 						<%-- pagination --%>
-						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item active"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">Next</a></li>
+						<ul class="pagination justify-content-center mt-4">
+							<li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-less-than"></i></a></li>
+							<c:forEach var="page" items = "${pageList}">
+								<li class="page-item ${currentUserPage eq page ? 'active' : ''}">
+									<a class="page-link" href="/jw/bbs/user/list?page=${page}">${page}</a>
+								</li>
+							</c:forEach>				
+							<li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-greater-than"></i></a></li>
 						</ul>
 					</div>
 					<div class="col-1"></div>
