@@ -57,7 +57,6 @@ public class BoardController extends HttpServlet {
 			rd = request.getRequestDispatcher("/WEB-INF/view/board/list.jsp");
 			rd.forward(request, response);
 			break;
-			
 
 		case "insert": {
 			sessUid = (String) session.getAttribute("sessUid");
