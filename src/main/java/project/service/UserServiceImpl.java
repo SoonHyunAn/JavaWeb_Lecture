@@ -54,5 +54,10 @@ public class UserServiceImpl  implements UserService{
 		return WRONG_PASSWORD;
 	}
 
+	@Override
+	public int getUserCount() {
+		return userDao.getUserCount();
+	}
+
 
 }

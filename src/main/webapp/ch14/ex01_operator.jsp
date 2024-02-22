@@ -58,11 +58,8 @@ td, th {
 			<td>\${10 / 3}</td>
 			<td>${10 / 3}</td>
 		</tr>
-		<tr>
-			<td>\${10 div 3}</td>
-			<td>${10 div 3}</td>
-			<!-- 나누기 -->
-		</tr>
+		<%-- 	<tr><td>\${10 div 3}</td><td>${10 div 3}</td></tr> 나누기 --%>
+
 		<tr>
 			<td>\${10 % 3}</td>
 			<td>${10 % 3}</td>
@@ -87,10 +84,7 @@ td, th {
 			<td>\${"hello" != "world"}</td>
 			<td>${"hello" != "world"}</td>
 		</tr>
-		<tr>
-			<td>\${"hello" ne "world"}</td>
-			<td>${"hello" ne "world"}</td>
-		</tr>
+		<!-- <tr><td>\${"hello" ne "world"}</td><td>${"hello" ne "world"}</td></tr> -->
 		<tr>
 			<td>\${10 > 3}</td>
 			<td>${10 > 3}</td>
