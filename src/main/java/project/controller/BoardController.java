@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import project.entity.Board;
+import project.entity.Reply;
 import project.service.BoardService;
 import project.service.BoardServiceImpl;
 
@@ -32,7 +33,7 @@ public class BoardController extends HttpServlet {
 		int bid = 0;
 
 		switch (action) {
-		case "list":			// /jw/bbs/board/list?p=1&f=title&q=검색
+		case "list": // /jw/bbs/board/list?p=1&f=title&q=검색
 			String page_ = request.getParameter("p");
 			String field = request.getParameter("f");
 			String query = request.getParameter("q");
@@ -44,7 +45,7 @@ public class BoardController extends HttpServlet {
 			request.setAttribute("query", query);
 			List<Board> boardList = bSvc.getBoardList(page, field, query);
 			request.setAttribute("boardList", boardList);
-			
+
 			// for pagination
 			int totalItems = bSvc.getBoardCount();
 			int totalPages = (int) Math.ceil(totalItems * 1.0 / bSvc.COUNT_PER_PAGE);
@@ -52,11 +53,12 @@ public class BoardController extends HttpServlet {
 			for (int i = 1; i <= totalPages; i++)
 				pageList.add(String.valueOf(i));
 			request.setAttribute("pageList", pageList);
-			
+
 			rd = request.getRequestDispatcher("/WEB-INF/view/board/list.jsp");
 			rd.forward(request, response);
 			break;
 			
+
 		case "insert": {
 			sessUid = (String) session.getAttribute("sessUid");
 			if (sessUid == null || sessUid.equals("")) {
@@ -76,15 +78,20 @@ public class BoardController extends HttpServlet {
 			}
 			break;
 		}
-		case "detail":{
+		case "detail": {
 			bid = Integer.parseInt(request.getParameter("bid"));
+			bSvc.increaseViewCount(bid);
+			
 			board = bSvc.getBoard(bid);
 			request.setAttribute("board", board);
-			List<Reply> replyList = null;
+			
+			List<Reply> replyList = null; // 댓글 목록 필요 - 2024 02 22 현재 미구현
 			request.setAttribute("replyList", replyList);
-			rd = request.getRequestDispatcher("/WEB-INF/view/board/list.jsp");
+			
+			rd = request.getRequestDispatcher("/WEB-INF/view/board/detail.jsp");
 			rd.forward(request, response);
 		}
+			break;
 		}
 	}
 }

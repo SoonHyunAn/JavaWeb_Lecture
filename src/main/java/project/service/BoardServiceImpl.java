@@ -41,14 +41,15 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+	// 아래 두 함수는 boardDao의 increaeViewCount를 공유함.
 	@Override
 	public void increaseViewCount(int bid) {
-		
+		bDao.increaseCount("view", bid);
 	}
 
 	@Override
 	public void increaseReplyCount(int bid) {
-		
+		bDao.increaseCount("reply", bid);
 	}
 
 }

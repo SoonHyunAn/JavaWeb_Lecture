@@ -26,7 +26,7 @@ td, th {
 			<!-- ============본문영역============ -->
 			<div class="col-9">
 				<h3>
-					<strong class="me-5">게시글 쓰기</strong> <span style="font-size: 16px;">
+					<strong class="me-5">게시글 쓰기</strong>
 				</h3>
 				<hr>
 				<div class="row">
