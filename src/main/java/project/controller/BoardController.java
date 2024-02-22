@@ -27,9 +27,12 @@ public class BoardController extends HttpServlet {
 		String method = request.getMethod();
 		HttpSession session = request.getSession();
 		RequestDispatcher rd = null;
+		String title = null, content = null, uid = null, sessUid = null;
+		Board board = null;
+		int bid = 0;
 
 		switch (action) {
-		case "list": { // /jw/bbs/board/list?p=1&f=title&q=검색
+		case "list":			// /jw/bbs/board/list?p=1&f=title&q=검색
 			String page_ = request.getParameter("p");
 			String field = request.getParameter("f");
 			String query = request.getParameter("q");
@@ -37,9 +40,11 @@ public class BoardController extends HttpServlet {
 			session.setAttribute("currentBoardPage", page);
 			field = (field == null || field.equals("")) ? "title" : field;
 			query = (query == null || query.equals("")) ? "" : query;
+			request.setAttribute("field", field);
+			request.setAttribute("query", query);
 			List<Board> boardList = bSvc.getBoardList(page, field, query);
 			request.setAttribute("boardList", boardList);
-
+			
 			// for pagination
 			int totalItems = bSvc.getBoardCount();
 			int totalPages = (int) Math.ceil(totalItems * 1.0 / bSvc.COUNT_PER_PAGE);
@@ -47,18 +52,38 @@ public class BoardController extends HttpServlet {
 			for (int i = 1; i <= totalPages; i++)
 				pageList.add(String.valueOf(i));
 			request.setAttribute("pageList", pageList);
-
+			
 			rd = request.getRequestDispatcher("/WEB-INF/view/board/list.jsp");
 			rd.forward(request, response);
 			break;
-		}
+			
 		case "insert": {
+			sessUid = (String) session.getAttribute("sessUid");
+			if (sessUid == null || sessUid.equals("")) {
+				response.sendRedirect("/jw/bbs/user/login");
+				// 이것만 있으면 오류 코드 - sendRedirect와 forward 중 한번만 쓸 수 있음.
+				break; // 이후에 forward 를 할 수 없게 함.
+			}
 			if (method.equals("GET")) {
 				rd = request.getRequestDispatcher("/WEB-INF/view/board/insert.jsp");
 				rd.forward(request, response);
 			} else {
+				title = request.getParameter("title");
+				content = request.getParameter("content");
+				board = new Board(title, content, sessUid);
+				bSvc.insertBoard(board);
+				response.sendRedirect("/jw/bbs/board/list?p=1");
 			}
 			break;
+		}
+		case "detail":{
+			bid = Integer.parseInt(request.getParameter("bid"));
+			board = bSvc.getBoard(bid);
+			request.setAttribute("board", board);
+			List<Reply> replyList = null;
+			request.setAttribute("replyList", replyList);
+			rd = request.getRequestDispatcher("/WEB-INF/view/board/list.jsp");
+			rd.forward(request, response);
 		}
 		}
 	}
