@@ -15,7 +15,8 @@
 <script src="https://kit.fontawesome.com/f474084c1e.js"
 	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
 <style>
 * {
 	font-family: 'Noto Sans KR', sans-serif;
@@ -23,5 +24,9 @@
 
 a {
 	text-decoration: none;
+}
+
+.disabled-link {
+	pointer-events: none;
 }
 </style>
